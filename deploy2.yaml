@@ -47,8 +47,10 @@ spec:
             mountPath: /etc/nginx/nginx.conf 
             subPath: "nginx.conf" 
             readOnly: true
-          - name: pass-file
+          - name: auth-basic
             mountPath: /etc/apache2/.htpasswd
+            subPath: ".htpasswd"
+            readOnly: true
       volumes: 
         - name: nginx-conf-file
           configMap:
@@ -56,9 +58,6 @@ spec:
             items:
             - key: "nginx.conf"
               path: "nginx.conf"
-        - name: pass-file
-          configMap:
-            name: nginx-conf
-            items:
-            - key: ".htpasswd"
-              path: ".htpasswd"
+        - name: auth-basic
+          secret:
+            secretName: auth-basic
